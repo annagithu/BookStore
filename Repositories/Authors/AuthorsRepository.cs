@@ -5,41 +5,52 @@ namespace BookStore.Repositories.Authors
 {
     public class AuthorsRepository : IAuthorsRepository
     {
-        public async Task<AuthorModel> CreateAuthor(AuthorModel author)
+        private readonly Context _context;
+        public AuthorsRepository(Context context)
         {
-            using var context = new Context(); //хуйня переделывай
-            await context.AddAsync(author);
-            await context.SaveChangesAsync();
+            _context = context;
+        }
+
+        public async Task<AuthorModel> CreateAuthor(AuthorModel author) //решить проблему с айди
+        {
+            await _context.AddAsync(author);
+            await _context.SaveChangesAsync();
             return author;
         }
 
 
-        public async Task<AuthorModel> GetAuthorById(int id)
+        public async Task<AuthorModel?> GetAuthorById(int id)
         {
-            using var context = new Context();
-            return await context.Authors.Where(author => author.Id == id).FirstOrDefaultAsync();
+                 
+            return await _context.Authors.FirstOrDefaultAsync(author => author.Id == id);
         }
 
-        public async Task<List<AuthorModel>> GetAllAuthors()
+        public async Task<List<AuthorModel>> GetAllAuthors(int take, int skip)
         {
-            using var context = new Context();
-            return await context.Authors.ToListAsync();
+
+            return await _context.Authors.Skip(skip).Take(take).ToListAsync();
         }
 
         public async Task<string> DeleteAuthor(int id)
         {
-            using var context = new Context();
+                 
             var deletedAuthor = new AuthorModel { Id = id };
-            context.Remove(deletedAuthor);
-            context.SaveChanges();
-            var responce = "successfully";
+            _context.Remove(deletedAuthor);
+            await _context.SaveChangesAsync();
+            var responce = "successfully"; //веррнуть кол-во удаленных элементов
             return responce;
         }
 
         public async Task<List<AuthorModel>> SortAuthors(string parameter, string value)
         {
-            using var context = new Context();
-            return await context.Authors.FromSqlRaw($"SELECT * FROM public.\"Authors\" ORDER BY \"{parameter}\" {value}").ToListAsync();
+                 
+            return await _context.Authors.FromSqlRaw($"SELECT * FROM public.\"Authors\" ORDER BY \"{parameter}\" {value}").ToListAsync();
+        }
+
+        public async Task<List<AuthorModel>> FilterAuthors(string parameter, string value)
+        {
+                 
+            return await _context.Authors.FromSqlRaw($"SELECT * FROM public.\"Authors\" WHERE \"{parameter}\" = \'{value}\'").ToListAsync();
         }
     }
 }

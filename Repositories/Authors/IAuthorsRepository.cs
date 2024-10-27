@@ -8,12 +8,12 @@ namespace BookStore.Repositories.Authors
 
         Task<AuthorModel> GetAuthorById(int id);
 
-        Task<List<AuthorModel>> GetAllAuthors();
+        Task<List<AuthorModel>> GetAllAuthors(int take, int skip);
 
         Task<string> DeleteAuthor(int id);
 
         Task<List<AuthorModel>> SortAuthors(string parameter, string value);
 
-        //Task<List<AuthorModel>> FilterAuthors(string parameter, string value);
+        Task<List<AuthorModel>> FilterAuthors(string parameter, string value);
     }
 }

@@ -45,9 +45,9 @@ namespace BookStore.Controllers.Books
 
 
         [HttpGet("GetAllBooks")]
-        public async Task<List<BookModel>> GetAllBooks()
+        public async Task<List<BookModel>> GetAllBooks(int take, int skip)
         {
-            var books = await _mediator.Send(new GetAllBooksCommand());
+            var books = await _mediator.Send(new GetAllBooksCommand { Take = take, Skip = skip });
             return books;
         }
 
@@ -64,6 +64,13 @@ namespace BookStore.Controllers.Books
         public async Task<List<BookModel>> SortBooks(SortBooksCommand sortBooksCommand)
         {
             var responce = await _mediator.Send(sortBooksCommand);
+            return responce;
+        }
+
+        [HttpPost("FilterBooks")]
+        public async Task<List<BookModel>> FilterBooks(FilterBooksCommand filterBooksCommand)
+        {
+            var responce = await _mediator.Send(filterBooksCommand);
             return responce;
         }
     }

@@ -16,7 +16,7 @@ namespace BookStore.Handlers.Authors
 
         public async Task<List<AuthorModel>> Handle(GetAllAuthorsCommand request, CancellationToken cancellationToken)
         {
-            return await _authorsService.GetAllAuthors();
+            return await _authorsService.GetAllAuthors(request);
         }
     }
 }

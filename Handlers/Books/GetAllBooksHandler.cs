@@ -15,7 +15,7 @@ namespace BookStore.Handlers.Books
 
         public async Task <List<BookModel>> Handle(GetAllBooksCommand request, CancellationToken cancellationToken)
         {
-            return await _booksService.GetAllBooks();
+            return await _booksService.GetAllBooks(request);
         }
     }
 }

@@ -23,9 +23,9 @@ namespace BookStore.Services.Authors
             return await _authorsRepository.GetAuthorById(id);
         }
 
-        public async Task<List<AuthorModel>> GetAllAuthors()
+        public async Task<List<AuthorModel>> GetAllAuthors(GetAllAuthorsCommand getAllAuthorsCommand)
         {
-            return await _authorsRepository.GetAllAuthors();
+            return await _authorsRepository.GetAllAuthors(getAllAuthorsCommand.Take, getAllAuthorsCommand.Skip);
         }
 
         public async Task<string> DeleteAuthor(int id)
@@ -36,6 +36,11 @@ namespace BookStore.Services.Authors
         public async Task<List<AuthorModel>> SortAuthors(SortAuthorsCommand sortAuthorsCommand)
         {
             return await _authorsRepository.SortAuthors(sortAuthorsCommand.Parameter.ToString(), sortAuthorsCommand.Value.ToString());
+        }
+
+        public async Task<List<AuthorModel>> FilterAuthors(FilterAuthorsCommand filterAuthorsCommand)
+        {
+            return await _authorsRepository.FilterAuthors(filterAuthorsCommand.Parameters.ToString(), filterAuthorsCommand.Value.ToString());
         }
     }
 }

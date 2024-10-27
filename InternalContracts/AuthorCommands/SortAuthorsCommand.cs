@@ -7,21 +7,19 @@ namespace BookStore.InternalContracts.AuthorCommands
     {
         public AuthorParameters Parameter { get; set; }
 
-        public AuthorValues Value { get; set; }
+        public OrderKindA Value { get; set; }  
+    }
+    public enum AuthorParameters
+    {
+        Surname,
+        Name,
+        Patronymic,
+        BirthYear
+    }
 
-        public enum AuthorParameters
-            {
-                Surname,
-                Name,
-                Patronymic,
-                BirthYear
-            }
-
-        public enum AuthorValues
-            {
-                ASC,
-                DESC
-            }
-        
+    public enum OrderKindA
+    {
+        ASC,
+        DESC
     }
 }

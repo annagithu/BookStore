@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using BookStore;
+using Microsoft.EntityFrameworkCore;
 
 {
     var builder = WebApplication.CreateBuilder(args);
@@ -23,10 +25,12 @@ using System.Text.Json.Serialization;
 
     builder.Services.AddControllers();
     builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-    builder.Services.AddSingleton<IBooksRepository, BooksRepository>();
-    builder.Services.AddSingleton<IAuthorsRepository, AuthorsRepository>();
-    builder.Services.AddSingleton<IBooksService, BooksService>();
-    builder.Services.AddSingleton<IAuthorsService, AuthorsService>();
+    builder.Services.AddDbContext<Context>(
+        options => options.UseNpgsql(@"host=localhost;port=5432;database=bookstore;username=postgres;password=1234"));
+    builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+    builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
+    builder.Services.AddScoped<IBooksService, BooksService>();
+    builder.Services.AddScoped<IAuthorsService, AuthorsService>();
     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
