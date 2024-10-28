@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 
 namespace BookStore.InternalContracts.Models
 {
@@ -13,5 +14,8 @@ namespace BookStore.InternalContracts.Models
         public string Patronymic  { get; set; }
 
         public int BirthYear { get; set; }
+
     }
+
+   
 }

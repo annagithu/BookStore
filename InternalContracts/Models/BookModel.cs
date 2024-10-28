@@ -11,17 +11,12 @@ namespace BookStore.InternalContracts.Models
 
         public string Author { get; set; }
 
-        public string YearOfPublication { get; set; }
+        public int YearOfPublication { get; set; }
 
         public int Pages { get; set; }
 
-        public Condition Condition { get; set; }
+        public References.References.Condition Condition { get; set; }
     }
 
-    public enum Condition 
-    {
-        Terrify,
-        Normal,
-        Good
-    }
+  
 }

@@ -1,12 +1,10 @@
-﻿using BookStore.InternalContracts.Models;
-using BookStore.InternalContracts.Commands;
-using BookStore.Services.BooksService;
+﻿using BookStore.Services.BooksService;
 using MediatR;
-using BookStore.InternalContracts.BooksCommands;
+using BookStore.InternalContracts.BooksQueries;
 
 namespace BookStore.Handlers.Books
 {
-    public class DeleteBookHandler : IRequestHandler<DeleteBookCommand, string>
+    public class DeleteBookHandler : IRequestHandler<DeleteBookQuery, string>
     {
         private readonly IBooksService _booksService;
         public DeleteBookHandler(IBooksService booksService)
@@ -14,7 +12,7 @@ namespace BookStore.Handlers.Books
             _booksService = booksService;
         }
 
-        public async Task<string> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DeleteBookQuery request, CancellationToken cancellationToken)
         {
             return await _booksService.DeleteBook(request.Id);
         }

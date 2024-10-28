@@ -2,21 +2,16 @@ using BookStore.Repositories.Books;
 using BookStore.Repositories.Authors;
 using BookStore.Services.BooksService;
 using BookStore.Services.Authors;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using BookStore;
 using Microsoft.EntityFrameworkCore;
+using BookStore.Helpers;
 
 {
     var builder = WebApplication.CreateBuilder(args);
     builder.Logging.ClearProviders();
 
-    //Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
-    //builder.Services.AddSerilog();
     builder.Services.AddControllers().AddJsonOptions(x =>
     {
         x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -47,7 +42,7 @@ using Microsoft.EntityFrameworkCore;
 
 
     app.UseAuthorization();
-
+    app.UseMiddleware<ErrorHandler>();
 
     app.MapControllers();
 

@@ -18,6 +18,12 @@ namespace BookStore.Repositories.Authors
             return author;
         }
 
+        public async Task<string> UpdateAuthor(AuthorModel model)
+        {
+            _context.Update(model);
+            await _context.SaveChangesAsync();
+            return "1 row has been updated";
+        }
 
         public async Task<AuthorModel?> GetAuthorById(int id)
         {
@@ -25,10 +31,10 @@ namespace BookStore.Repositories.Authors
             return await _context.Authors.FirstOrDefaultAsync(author => author.Id == id);
         }
 
-        public async Task<List<AuthorModel>> GetAllAuthors(int take, int skip)
+        public async Task<List<AuthorModel>> GetAllAuthors(int? take, int? skip)
         {
 
-            return await _context.Authors.Skip(skip).Take(take).ToListAsync();
+            return await _context.Authors.Skip((int)skip).Take((int)take).ToListAsync();
         }
 
         public async Task<string> DeleteAuthor(int id)

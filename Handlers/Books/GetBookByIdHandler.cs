@@ -1,12 +1,12 @@
 ﻿using BookStore.InternalContracts.Models;
-using BookStore.InternalContracts.Commands;
+using BookStore.InternalContracts.BooksQueries;
 using BookStore.Services.BooksService;
 using MediatR;
 
 namespace BookStore.Handlers.Books
 {
     
-    public class GetBookByIdHandler : IRequestHandler<GetBookByIdCommand, BookModel>
+    public class GetBookByIdHandler : IRequestHandler<GetBookByIdQuery, BookModel>
     {
         private readonly IBooksService _booksService;
         public GetBookByIdHandler(IBooksService booksService)
@@ -14,7 +14,7 @@ namespace BookStore.Handlers.Books
             _booksService = booksService;
         }
 
-        public async Task<BookModel> Handle(GetBookByIdCommand request, CancellationToken cancellationToken)
+        public async Task<BookModel> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
         {
             return await _booksService.GetBookById(request.Id);
         }

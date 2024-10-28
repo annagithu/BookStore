@@ -1,11 +1,11 @@
 ﻿using BookStore.InternalContracts.Models;
-using BookStore.InternalContracts.Commands;
+using BookStore.InternalContracts.AuthorQueries;
 using BookStore.Services;
 using BookStore.Services.BooksService;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using BookStore.InternalContracts.BooksCommands;
+using BookStore.InternalContracts.BooksQueries;
 
 namespace BookStore.Controllers.Books
 {
@@ -21,57 +21,47 @@ namespace BookStore.Controllers.Books
             _mediator = mediator;
         }
 
-
-
-
-
         [HttpPost("CreateBook")]
         public async Task<BookModel> CreateBook([FromBody] BookModel model)
         {
-            var createdBook = await _mediator.Send(model);
-
-            return (BookModel)createdBook;
+            return await _mediator.Send(model);
         }
 
+        [HttpPut("UpdateBook")]
+        public async Task<string> UpdateBook([FromBody] UpdateBookQuery updateBookQuery)
+        {
+            return await _mediator.Send(updateBookQuery);
+        }
 
 
         [HttpGet("GetBookById")]
         public async Task<BookModel> GetBookById(int id)
         {
-            var book = await _mediator.Send( new GetBookByIdCommand {Id = id});
-            return (BookModel)book;
+            return await _mediator.Send(new GetBookByIdQuery { Id = id });
         }
-
-
 
         [HttpGet("GetAllBooks")]
-        public async Task<List<BookModel>> GetAllBooks(int take, int skip)
+        public async Task<List<BookModel>> GetAllBooks(int? take = 10, int? skip = 0)
         {
-            var books = await _mediator.Send(new GetAllBooksCommand { Take = take, Skip = skip });
-            return books;
+            return await _mediator.Send(new GetAllBooksQuery { Take = take, Skip = skip });
         }
 
-
         [HttpDelete("DeleteBook")]
-
         public async Task<string> DeleteBook(int id)
         {
-            var responce = await _mediator.Send(new DeleteBookCommand { Id = id});
-            return responce;
+            return await _mediator.Send(new DeleteBookQuery { Id = id });
         }
 
         [HttpPost("SortBooks")]
-        public async Task<List<BookModel>> SortBooks(SortBooksCommand sortBooksCommand)
+        public async Task<List<BookModel>> SortBooks(SortBooksQuery sortBooksQuery)
         {
-            var responce = await _mediator.Send(sortBooksCommand);
-            return responce;
+            return await _mediator.Send(sortBooksQuery);
         }
 
         [HttpPost("FilterBooks")]
-        public async Task<List<BookModel>> FilterBooks(FilterBooksCommand filterBooksCommand)
+        public async Task<List<BookModel>> FilterBooks(FilterBooksQuery filterBooksQuery)
         {
-            var responce = await _mediator.Send(filterBooksCommand);
-            return responce;
+            return await _mediator.Send(filterBooksQuery);
         }
     }
 }

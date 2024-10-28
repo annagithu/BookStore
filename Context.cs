@@ -17,16 +17,10 @@ namespace BookStore
         public DbSet<BookModel> Books { get; set; }
         public DbSet<AuthorModel> Authors { get; set; }
 
-        //[Obsolete]
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseNpgsql(@"host=localhost;port=5432;database=bookstore;username=postgres;password=1234").LogTo(Console.WriteLine);
-        //    ReloadTypesAsync();
-        //}
-
-        public Task ReloadTypesAsync()
+        [Obsolete]
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            return Task.CompletedTask;
+            optionsBuilder.UseNpgsql(@"host=localhost;port=5432;database=bookstore;username=postgres;password=1234").LogTo(Console.WriteLine);
         }
     }
 }

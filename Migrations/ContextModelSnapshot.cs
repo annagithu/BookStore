@@ -71,9 +71,8 @@ namespace BookStore.Migrations
                     b.Property<int>("Pages")
                         .HasColumnType("integer");
 
-                    b.Property<string>("YearOfPublication")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("YearOfPublication")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStore", "BookStore.csproj", "{200C98D2-7CE0-433C-A564-4310B86A616A}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore", "BookStore.csproj", "{200C98D2-7CE0-433C-A564-4310B86A616A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F926AF15-60EC-4761-85B6-F2680C80E4A3}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStoreTests", "..\BookStoreTests\BookStoreTests.csproj", "{6E8F361F-D06C-42BD-A0E0-F612B5005045}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,5 +22,15 @@ Global
 		{200C98D2-7CE0-433C-A564-4310B86A616A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{200C98D2-7CE0-433C-A564-4310B86A616A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{200C98D2-7CE0-433C-A564-4310B86A616A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E8F361F-D06C-42BD-A0E0-F612B5005045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E8F361F-D06C-42BD-A0E0-F612B5005045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E8F361F-D06C-42BD-A0E0-F612B5005045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E8F361F-D06C-42BD-A0E0-F612B5005045}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9612F9A5-790D-454F-97AE-DDCBD32945D7}
 	EndGlobalSection
 EndGlobal

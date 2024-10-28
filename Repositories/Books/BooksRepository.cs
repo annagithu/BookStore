@@ -1,17 +1,12 @@
 ﻿using BookStore.Helpers;
 using BookStore.InternalContracts.Models;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Repositories.Books
 {
-    public class BooksRepository : IBooksRepository
+    public class BooksRepository(Context context) : IBooksRepository
     {
-        private readonly Context _context;
-        public BooksRepository(Context context)
-        {
-            _context = context;
-        }
+        private readonly Context _context = context;
 
         public async Task<BookModel> CreateBook(BookModel book)
         {
@@ -20,37 +15,38 @@ namespace BookStore.Repositories.Books
             return book;
         }
 
+        public async Task<string> UpdateBook(BookModel model)
+        {
+            _context.Update(model);
+            await _context.SaveChangesAsync();
+            return "1 row has been updated";
+        }
+
         public async Task<BookModel?> GetBookById(int id)
         {
             return await _context.Books.FirstOrDefaultAsync(book => book.Id == id);
         }
 
 
-        public async Task<List<BookModel>> GetAllBooks(int take, int skip)
+        public async Task<List<BookModel>> GetAllBooks(int? take, int? skip)
         {
-                 
-            return await _context.Books.Skip(skip).Take(take).ToListAsync();
+            return await _context.Books.Skip((int)skip).Take((int)take).ToListAsync();
         }
 
         public async Task<string> DeleteBook(int id)
         {
-                 
-            var deletedBook = new BookModel { Id = id };
-            _context.Remove(deletedBook);
+            _context.Remove(new BookModel { Id = id });
             await _context.SaveChangesAsync();
-            var responce = "successfully";
-            return responce;
+            return "1 record has been deleted";
         }
 
         public async Task<List<BookModel>> SortBooks(string parameter, string value)
         {
-                 
             return await _context.Books.FromSqlRaw($"SELECT * FROM public.\"Books\" ORDER BY \"{parameter}\" {value}").ToListAsync();
         }
 
         public async Task<List<BookModel>> FilterBooks(string parameter, string value)
         {
-            
             return await _context.Books.FromSqlRaw($"SELECT * FROM public.\"Books\" WHERE \"{parameter}\" = \'{value}\'").ToListAsync();
         }
     }
