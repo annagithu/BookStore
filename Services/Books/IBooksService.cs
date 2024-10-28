@@ -7,13 +7,13 @@ namespace BookStore.Services.BooksService
     {
         Task<BookModel> CreateBook(BookModel model);
 
-        Task<string> UpdateBook(UpdateBookCommand model);
+        Task UpdateBook(UpdateBookCommand model);
 
         Task<BookModel> GetBookById(int id);
 
         Task<List<BookModel>> GetAllBooks(GetAllBooksQuery getAllBooksQuery);
 
-        Task<string> DeleteBook(int id);
+        Task DeleteBook(int id);
 
         Task<List<BookModel>> SortBooks(SortBooksQuery sortBooksQuery);
 

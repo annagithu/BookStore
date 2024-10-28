@@ -29,19 +29,16 @@ namespace BookStore.Services.Authors
 
         public async Task<List<AuthorModel>> GetAllAuthors(GetAllAuthorsQuery getAllAuthorsQuery)
         {
-            if (getAllAuthorsQuery.Take < 0 || getAllAuthorsQuery.Skip < 0)
-            {
-                getAllAuthorsQuery.Take = 0;
-                getAllAuthorsQuery.Skip = 0;
-            }
+            if (getAllAuthorsQuery.Take < 0) getAllAuthorsQuery.Take = 0;
+            if (getAllAuthorsQuery.Skip < 0) getAllAuthorsQuery.Skip = 0;
             return await _authorsRepository.GetAllAuthors(getAllAuthorsQuery.Take, getAllAuthorsQuery.Skip);
         }
 
-        public async Task<string> DeleteAuthor(int id)
+        public async Task DeleteAuthor(int id)
         {
             var author = await _authorsRepository.GetAuthorById(id);
             if (author == null) throw new AppException($"Author with the ID {id} doesn't exist"); 
-            return await _authorsRepository.DeleteAuthor(id);
+             await _authorsRepository.DeleteAuthor(author);
         }
 
         public async Task<List<AuthorModel>> SortAuthors(SortAuthorsQuery sortAuthorsQuery)
@@ -55,11 +52,12 @@ namespace BookStore.Services.Authors
             return await _authorsRepository.FilterAuthors(filterAuthorsQuery.Parameters.ToString(), filterAuthorsQuery.Value);
         }
 
-        public async Task<string> UpdateAuthor(UpdateAuthorCommand updateAuthorCommand)
+        public async Task UpdateAuthor(UpdateAuthorCommand updateAuthorCommand)
         {
+
             var author = await _authorsRepository.GetAuthorById(updateAuthorCommand.Id) ?? throw new AppException($"Author with the ID {updateAuthorCommand.Id} doesn't exist");
             author = _mapper.Map<AuthorModel>(updateAuthorCommand);
-            return await _authorsRepository.UpdateAuthor(author);
+            await _authorsRepository.UpdateAuthor(author);
         }
     }
 }

@@ -23,9 +23,9 @@ namespace BookStore.Controllers
         }
 
         [HttpPut("UpdateAuthor")]
-        public async Task<string> UpdateAuthor([FromBody] UpdateAuthorCommand model)
+        public async Task UpdateAuthor([FromBody] UpdateAuthorCommand model)
         {
-            return await _mediator.Send(model);
+            await _mediator.Send(model);
         }
 
         [HttpGet("GetAuthorById")]
@@ -41,9 +41,9 @@ namespace BookStore.Controllers
         }
 
         [HttpDelete("DeleteAuthor")]
-        public async Task<string> DeleteAuthor(int id)
+        public async Task DeleteAuthor(int id)
         {
-            return await _mediator.Send(new DeleteAuthorCommand { Id = id });
+             await _mediator.Send(new DeleteAuthorCommand { Id = id });
         }
 
         [HttpPost("SortAuthors")]

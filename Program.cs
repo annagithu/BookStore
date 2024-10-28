@@ -8,6 +8,7 @@ using BookStore;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Helpers;
 using AutoMapper;
+using Microsoft.Extensions.Options;
 
 {
     var builder = WebApplication.CreateBuilder(args);
@@ -22,8 +23,11 @@ using AutoMapper;
     builder.Services.AddControllers();
     builder.Services.AddAutoMapper(typeof(MappingProfile));
     builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-    builder.Services.AddDbContext<Context>(
-        options => options.UseNpgsql(@"host=localhost;port=5432;database=bookstore;username=postgres;password=1234"));
+    builder.Services.AddDbContext<Context>(options =>
+        {
+            options.UseNpgsql(@"host=localhost;port=5432;database=bookstore;username=postgres;password=1234");
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
     builder.Services.AddScoped<IBooksRepository, BooksRepository>();
     builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
     builder.Services.AddScoped<IBooksService, BooksService>();

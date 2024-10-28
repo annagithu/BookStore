@@ -7,13 +7,13 @@ namespace BookStore.Repositories.Books
     {
         Task<BookModel> CreateBook(BookModel model);
 
-        Task<string> UpdateBook(BookModel model);
+        Task UpdateBook(BookModel model);
 
         Task<BookModel> GetBookById(int id);
 
         Task<List<BookModel>> GetAllBooks(int take, int skip);
 
-        Task<string> DeleteBook(int id);
+        Task DeleteBook(BookModel model);
 
         Task<List<BookModel>> SortBooks(string parameter, OrderKind value);
 

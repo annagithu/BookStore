@@ -7,13 +7,13 @@ namespace BookStore.Services.Authors
     {
         Task<AuthorModel> CreateAuthor(AuthorModel model);
 
-        Task<string> UpdateAuthor(UpdateAuthorCommand model);
+        Task UpdateAuthor(UpdateAuthorCommand model);
 
         Task<AuthorModel> GetAuthorById(int id);
 
         Task<List<AuthorModel>> GetAllAuthors(GetAllAuthorsQuery getAllAuthorsQuery);
 
-        Task<string> DeleteAuthor(int id);
+        Task DeleteAuthor(int id);
 
         Task<List<AuthorModel>> SortAuthors(SortAuthorsQuery sortAuthorsQuery);
 

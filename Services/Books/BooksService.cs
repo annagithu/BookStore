@@ -17,11 +17,11 @@ namespace BookStore.Services.BooksService
              return await _booksRepository.CreateBook(model); 
         }
 
-        public async Task<string> UpdateBook(UpdateBookCommand updateBookCommand)
+        public async Task UpdateBook(UpdateBookCommand updateBookCommand)
         {
             var book = await _booksRepository.GetBookById(updateBookCommand.Id) ?? throw new AppException($"Book with the ID {updateBookCommand.Id} doesn't exist");
             book = _mapper.Map<BookModel>(book);    
-            return await _booksRepository.UpdateBook(book);
+            await _booksRepository.UpdateBook(book);
         }
 
         public async Task<BookModel> GetBookById(int id)
@@ -33,19 +33,16 @@ namespace BookStore.Services.BooksService
 
         public async Task<List<BookModel>> GetAllBooks(GetAllBooksQuery getAllBooksQuery)
         {
-            if (getAllBooksQuery.Take < 0 || getAllBooksQuery.Skip < 0)
-            {
-                getAllBooksQuery.Take = 0;
-                getAllBooksQuery.Skip = 0;
-            }
+            if (getAllBooksQuery.Take < 0)  getAllBooksQuery.Take = 0; 
+            if (getAllBooksQuery.Skip < 0)  getAllBooksQuery.Skip = 0; 
             return await _booksRepository.GetAllBooks(getAllBooksQuery.Take, getAllBooksQuery.Skip);
         }
 
-        public async Task<string> DeleteBook(int id)
+        public async Task DeleteBook(int id)
         {
             var book = await _booksRepository.GetBookById(id);
-            if (book == null) { throw new AppException($"Book with the ID {id} doesn't exist"); }
-            else { return await _booksRepository.DeleteBook(id); }
+            if (book == null)  throw new AppException($"Book with the ID {id} doesn't exist"); 
+            else  await _booksRepository.DeleteBook(book); 
         }
 
         public async Task<List<BookModel>> SortBooks(SortBooksQuery sortBooksQuery)

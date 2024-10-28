@@ -16,11 +16,10 @@ namespace BookStore.Repositories.Books
             return book;
         }
 
-        public async Task<string> UpdateBook(BookModel model)
+        public async Task UpdateBook(BookModel model)
         {
             _context.Update(model);
             await _context.SaveChangesAsync();
-            return "1 row has been updated"; 
         }
 
         public async Task<BookModel?> GetBookById(int id)
@@ -34,11 +33,10 @@ namespace BookStore.Repositories.Books
             return await _context.Books.Skip((int)skip).Take((int)take).ToListAsync();
         }
 
-        public async Task<string> DeleteBook(int id)
+        public async Task DeleteBook(BookModel model)
         {
-            _context.Remove(new BookModel { Id = id });
+            _context.Remove(model);
             await _context.SaveChangesAsync();
-            return "1 row has been deleted";
         }
 
         public async Task<List<BookModel>> SortBooks(string parameter, OrderKind value)

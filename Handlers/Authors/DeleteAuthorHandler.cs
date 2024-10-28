@@ -5,7 +5,7 @@ using MediatR;
 
 namespace BookStore.Handlers.Authors
 {
-    public class DeleteAuthorHandler : IRequestHandler<DeleteAuthorCommand, string>
+    public class DeleteAuthorHandler : IRequestHandler<DeleteAuthorCommand>
     {
         private readonly IAuthorsService _authorsService;
         public DeleteAuthorHandler(IAuthorsService authorsService)
@@ -13,9 +13,9 @@ namespace BookStore.Handlers.Authors
             _authorsService = authorsService;
         }
 
-        public async Task<string> Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
         {
-            return await _authorsService.DeleteAuthor(request.Id);
+            await _authorsService.DeleteAuthor(request.Id);
         }
     }
 }

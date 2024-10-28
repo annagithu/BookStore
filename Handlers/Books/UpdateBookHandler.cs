@@ -4,7 +4,7 @@ using MediatR;
 
 namespace BookStore.Handlers.Books
 {
-    public class UpdateBookHandler : IRequestHandler<UpdateBookCommand, string>
+    public class UpdateBookHandler : IRequestHandler<UpdateBookCommand>
     {
         private readonly IBooksService _booksService;
         public UpdateBookHandler(IBooksService booksService)
@@ -12,9 +12,9 @@ namespace BookStore.Handlers.Books
             _booksService = booksService;
         }
 
-        public async Task<string> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
-            return await _booksService.UpdateBook(request);
+            await _booksService.UpdateBook(request);
         }
     }
 }

@@ -20,16 +20,14 @@ namespace BookStore.Repositories.Authors
             return author;
         }
 
-        public async Task<string> UpdateAuthor(AuthorModel model)
+        public async Task UpdateAuthor(AuthorModel model)
         {
-            _context.Update(model);
+            _context.Authors.Update(model);
             await _context.SaveChangesAsync();
-            return "1 row has been updated";
         }
 
-        public async Task<AuthorModel?> GetAuthorById(int id)
+        public async Task<AuthorModel> GetAuthorById(int id)
         {
-                 
             return await _context.Authors.FirstOrDefaultAsync(author => author.Id == id);
         }
 
@@ -39,14 +37,11 @@ namespace BookStore.Repositories.Authors
             return await _context.Authors.Skip(skip).Take(take).ToListAsync();
         }
 
-        public async Task<string> DeleteAuthor(int id)
+        public async Task DeleteAuthor(AuthorModel model)
         {
-                 
-            var deletedAuthor = new AuthorModel { Id = id };
-            _context.Remove(deletedAuthor);
+         
+            _context.Authors.Remove(model);
             await _context.SaveChangesAsync();
-            var responce = "successfully"; //веррнуть кол-во удаленных элементов
-            return responce;
         }
 
         public async Task<List<AuthorModel>> SortAuthors(string parameter, OrderKind value)
