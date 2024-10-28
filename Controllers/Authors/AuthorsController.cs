@@ -16,7 +16,7 @@ namespace BookStore.Controllers
     {
         private readonly IMediator _mediator = mediator;
 
-        [HttpPost("CreateAuthor")]
+        [HttpPut("CreateAuthor")]
         public async Task<AuthorModel> CreateAuthor([FromBody] AuthorModel model)
         {
             return await _mediator.Send(model);
@@ -46,13 +46,13 @@ namespace BookStore.Controllers
              await _mediator.Send(new DeleteAuthorCommand { Id = id });
         }
 
-        [HttpPost("SortAuthors")]
+        [HttpGet("SortAuthors")]
         public async Task<List<AuthorModel>> SortAuthors(SortAuthorsQuery sortAuthorsQuery)
         {
             return await _mediator.Send(sortAuthorsQuery);
         }
 
-        [HttpPost("FilterAuthors")]
+        [HttpGet("FilterAuthors")]
         public async Task<List<AuthorModel>> FilterAuthors(FilterAuthorsQuery filterAuthorsQuery)
         {
             return await _mediator.Send(filterAuthorsQuery);

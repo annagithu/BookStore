@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookStore.Helpers;
+using BookStore.InternalContracts.AuthorQueries;
 using BookStore.InternalContracts.BooksQueries;
 using BookStore.InternalContracts.Models;
 using BookStore.InternalContracts.References;
@@ -27,13 +28,13 @@ namespace BookStore.Services.BooksService
         public async Task<BookModel> GetBookById(int id)
         {
             var book = await _booksRepository.GetBookById(id);
-            if (book == null) { throw new AppException($"Book with the ID {id} doesn't exist"); }
+            if (book == null)  throw new AppException($"Book with the ID {id} doesn't exist"); 
             return book; 
         }
 
         public async Task<List<BookModel>> GetAllBooks(GetAllBooksQuery getAllBooksQuery)
         {
-            if (getAllBooksQuery.Take < 0)  getAllBooksQuery.Take = 0; 
+            if (getAllBooksQuery.Take <= 0 || getAllBooksQuery.Skip < 0) throw new AppException("The \"Skip\" value must be greater than or equal to 0. The \"Take\" value must be greater than 0.");            if (getAllBooksQuery.Take < 0)  getAllBooksQuery.Take = 0; 
             if (getAllBooksQuery.Skip < 0)  getAllBooksQuery.Skip = 0; 
             return await _booksRepository.GetAllBooks(getAllBooksQuery.Take, getAllBooksQuery.Skip);
         }

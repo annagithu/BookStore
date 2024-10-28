@@ -15,21 +15,21 @@ namespace BookStore.Services.Authors
         public async Task<AuthorModel> CreateAuthor(AuthorModel model)
         {
             var author = await _authorsRepository.GetAuthorById(model.Id);
-            if (author != null) { throw new AppException($"Author with the ID {model.Id} already exist"); }
-            else { return await _authorsRepository.CreateAuthor(model); };
+            if (author != null) throw new AppException($"Author with the ID {model.Id} already exist"); 
+            else  return await _authorsRepository.CreateAuthor(model); 
             
         }
 
         public async Task<AuthorModel> GetAuthorById(int id)
         {
             var author = await _authorsRepository.GetAuthorById(id);
-            if (author == null) { throw new AppException($"Author with the ID {id} doesn't exist"); }
-            else { return author; }
+            if (author == null)  throw new AppException($"Author with the ID {id} doesn't exist"); 
+            else return author; 
         }
 
         public async Task<List<AuthorModel>> GetAllAuthors(GetAllAuthorsQuery getAllAuthorsQuery)
         {
-            if (getAllAuthorsQuery.Take < 0) getAllAuthorsQuery.Take = 0;
+            if (getAllAuthorsQuery.Take <= 0 || getAllAuthorsQuery.Skip < 0) throw new AppException("The \"Skip\" value must be greater than or equal to 0. The \"Take\" value must be greater than 0."); if (getAllBooksQuery.Take < 0) getAllBooksQuery.Take = 0;
             if (getAllAuthorsQuery.Skip < 0) getAllAuthorsQuery.Skip = 0;
             return await _authorsRepository.GetAllAuthors(getAllAuthorsQuery.Take, getAllAuthorsQuery.Skip);
         }

@@ -30,7 +30,7 @@ namespace BookStore.Repositories.Books
 
         public async Task<List<BookModel>> GetAllBooks(int take, int skip)
         {
-            return await _context.Books.Skip((int)skip).Take((int)take).ToListAsync();
+            return await _context.Books.Skip(skip).Take(take).ToListAsync();
         }
 
         public async Task DeleteBook(BookModel model)
