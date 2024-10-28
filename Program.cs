@@ -7,8 +7,6 @@ using System.Text.Json.Serialization;
 using BookStore;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Helpers;
-using AutoMapper;
-using Microsoft.Extensions.Options;
 
 {
     var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +26,8 @@ using Microsoft.Extensions.Options;
             options.UseNpgsql(@"host=localhost;port=5432;database=bookstore;username=postgres;password=1234");
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
+
+
     builder.Services.AddScoped<IBooksRepository, BooksRepository>();
     builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
     builder.Services.AddScoped<IBooksService, BooksService>();
@@ -35,7 +35,7 @@ using Microsoft.Extensions.Options;
     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    
+
     var app = builder.Build();
 
 

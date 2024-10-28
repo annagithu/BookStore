@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Repositories.Authors
 {
-    public class AuthorsRepository : IAuthorsRepository
+    public class AuthorsRepository(Context context) : IAuthorsRepository
     {
-        private readonly Context _context;
-        public AuthorsRepository(Context context)
-        {
-            _context = context;
-        }
+        private readonly Context _context = context;
 
         public async Task<AuthorModel> CreateAuthor(AuthorModel author)
         {
@@ -26,6 +22,12 @@ namespace BookStore.Repositories.Authors
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteAuthor(AuthorModel model)
+        {
+            _context.Authors.Remove(model);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<AuthorModel> GetAuthorById(int id)
         {
             return await _context.Authors.FirstOrDefaultAsync(author => author.Id == id);
@@ -33,26 +35,16 @@ namespace BookStore.Repositories.Authors
 
         public async Task<List<AuthorModel>> GetAllAuthors(int take, int skip)
         {
-
             return await _context.Authors.Skip(skip).Take(take).ToListAsync();
         }
 
-        public async Task DeleteAuthor(AuthorModel model)
-        {
-         
-            _context.Authors.Remove(model);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<List<AuthorModel>> SortAuthors(string parameter, OrderKind value)
-        {
-                 
+        {    
             return await _context.Authors.FromSqlRaw($"SELECT * FROM public.\"Authors\" ORDER BY \"{parameter}\" {ToSQL(value)}").ToListAsync();
         }
 
         public async Task<List<AuthorModel>> FilterAuthors(string parameter, string value)
         {
-                 
             return await _context.Authors.FromSqlRaw($"SELECT * FROM public.\"Authors\" WHERE \"{parameter}\" = \'{value}\'").ToListAsync();
         }
 

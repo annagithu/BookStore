@@ -9,11 +9,11 @@ namespace BookStore.Services.BooksService
 
         Task UpdateBook(UpdateBookCommand model);
 
+        Task DeleteBook(int id);
+
         Task<BookModel> GetBookById(int id);
 
         Task<List<BookModel>> GetAllBooks(GetAllBooksQuery getAllBooksQuery);
-
-        Task DeleteBook(int id);
 
         Task<List<BookModel>> SortBooks(SortBooksQuery sortBooksQuery);
 

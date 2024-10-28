@@ -1,5 +1,4 @@
-﻿using BookStore.InternalContracts.Models;
-using BookStore.InternalContracts.AuthorQueries;
+﻿using BookStore.InternalContracts.AuthorQueries;
 using BookStore.Services.Authors;
 using MediatR;
 

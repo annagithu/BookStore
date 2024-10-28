@@ -9,11 +9,11 @@ namespace BookStore.Services.Authors
 
         Task UpdateAuthor(UpdateAuthorCommand model);
 
+        Task DeleteAuthor(int id);
+
         Task<AuthorModel> GetAuthorById(int id);
 
         Task<List<AuthorModel>> GetAllAuthors(GetAllAuthorsQuery getAllAuthorsQuery);
-
-        Task DeleteAuthor(int id);
 
         Task<List<AuthorModel>> SortAuthors(SortAuthorsQuery sortAuthorsQuery);
 

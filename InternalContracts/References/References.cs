@@ -8,7 +8,6 @@
         YearOfPublication,
         Condition
     }
-
     public enum AuthorParameters
     {
         Surname,

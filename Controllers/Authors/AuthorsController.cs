@@ -1,12 +1,7 @@
-﻿using BookStore.Handlers.Authors;
-using BookStore.InternalContracts.AuthorQueries;
-using BookStore.InternalContracts.BooksQueries;
+﻿using BookStore.InternalContracts.AuthorQueries;
 using BookStore.InternalContracts.Models;
-using BookStore.Services;
-using BookStore.Services.Authors;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace BookStore.Controllers
 {
@@ -28,6 +23,12 @@ namespace BookStore.Controllers
             await _mediator.Send(model);
         }
 
+        [HttpDelete("DeleteAuthor")]
+        public async Task DeleteAuthor(int id)
+        {
+            await _mediator.Send(new DeleteAuthorCommand { Id = id });
+        }
+
         [HttpGet("GetAuthorById")]
         public async Task<AuthorModel> GetAuthorById(int id)
         {
@@ -40,19 +41,13 @@ namespace BookStore.Controllers
             return await _mediator.Send(new GetAllAuthorsQuery { Take = take, Skip = skip });
         }
 
-        [HttpDelete("DeleteAuthor")]
-        public async Task DeleteAuthor(int id)
-        {
-             await _mediator.Send(new DeleteAuthorCommand { Id = id });
-        }
-
-        [HttpGet("SortAuthors")]
+        [HttpPost("SortAuthors")]
         public async Task<List<AuthorModel>> SortAuthors(SortAuthorsQuery sortAuthorsQuery)
         {
             return await _mediator.Send(sortAuthorsQuery);
         }
 
-        [HttpGet("FilterAuthors")]
+        [HttpPost("FilterAuthors")]
         public async Task<List<AuthorModel>> FilterAuthors(FilterAuthorsQuery filterAuthorsQuery)
         {
             return await _mediator.Send(filterAuthorsQuery);

@@ -17,11 +17,18 @@ namespace BookStore.Services.BooksService
         {
              return await _booksRepository.CreateBook(model); 
         }
+        
+        public async Task DeleteBook(int id)
+        {
+            var book = await _booksRepository.GetBookById(id);
+            if (book == null) throw new AppException($"Book with the ID {id} doesn't exist");
+            else await _booksRepository.DeleteBook(book);
+        }
 
         public async Task UpdateBook(UpdateBookCommand updateBookCommand)
         {
             var book = await _booksRepository.GetBookById(updateBookCommand.Id) ?? throw new AppException($"Book with the ID {updateBookCommand.Id} doesn't exist");
-            book = _mapper.Map<BookModel>(book);    
+            book = _mapper.Map<BookModel>(updateBookCommand);    
             await _booksRepository.UpdateBook(book);
         }
 
@@ -34,16 +41,8 @@ namespace BookStore.Services.BooksService
 
         public async Task<List<BookModel>> GetAllBooks(GetAllBooksQuery getAllBooksQuery)
         {
-            if (getAllBooksQuery.Take <= 0 || getAllBooksQuery.Skip < 0) throw new AppException("The \"Skip\" value must be greater than or equal to 0. The \"Take\" value must be greater than 0.");            if (getAllBooksQuery.Take < 0)  getAllBooksQuery.Take = 0; 
-            if (getAllBooksQuery.Skip < 0)  getAllBooksQuery.Skip = 0; 
+            if (getAllBooksQuery.Take <= 0 || getAllBooksQuery.Skip < 0) throw new AppException("The Skip value must be greater than or equal to 0. The Take value must be greater than 0."); 
             return await _booksRepository.GetAllBooks(getAllBooksQuery.Take, getAllBooksQuery.Skip);
-        }
-
-        public async Task DeleteBook(int id)
-        {
-            var book = await _booksRepository.GetBookById(id);
-            if (book == null)  throw new AppException($"Book with the ID {id} doesn't exist"); 
-            else  await _booksRepository.DeleteBook(book); 
         }
 
         public async Task<List<BookModel>> SortBooks(SortBooksQuery sortBooksQuery)
@@ -55,8 +54,6 @@ namespace BookStore.Services.BooksService
         {
             return await _booksRepository.FilterBooks(filterBooksQuery.Parameter.ToString(), filterBooksQuery.Value.ToString());
         }
-
-
     }
 
 }

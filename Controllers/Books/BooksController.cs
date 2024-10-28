@@ -1,10 +1,6 @@
 ﻿using BookStore.InternalContracts.Models;
-using BookStore.InternalContracts.AuthorQueries;
-using BookStore.Services;
-using BookStore.Services.BooksService;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using BookStore.InternalContracts.BooksQueries;
 
 namespace BookStore.Controllers.Books
@@ -28,6 +24,11 @@ namespace BookStore.Controllers.Books
            await _mediator.Send(updateBookQuery);
         }
 
+        [HttpDelete("DeleteBook")]
+        public async Task DeleteBook(int id)
+        {
+            await _mediator.Send(new DeleteBookCommand { Id = id });
+        }
 
         [HttpGet("GetBookById")]
         public async Task<BookModel> GetBookById(int id)
@@ -41,19 +42,13 @@ namespace BookStore.Controllers.Books
             return await _mediator.Send(new GetAllBooksQuery { Take = take, Skip = skip });
         }
 
-        [HttpDelete("DeleteBook")]
-        public async Task DeleteBook(int id)
-        {
-             await _mediator.Send(new DeleteBookCommand { Id = id });
-        }
-
-        [HttpGet("SortBooks")]
+        [HttpPost("SortBooks")]
         public async Task<List<BookModel>> SortBooks(SortBooksQuery sortBooksQuery)
         {
             return await _mediator.Send(sortBooksQuery);
         }
 
-        [HttpGet("FilterBooks")]
+        [HttpPost("FilterBooks")]
         public async Task<List<BookModel>> FilterBooks(FilterBooksQuery filterBooksQuery)
         {
             return await _mediator.Send(filterBooksQuery);

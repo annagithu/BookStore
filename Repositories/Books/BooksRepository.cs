@@ -22,21 +22,20 @@ namespace BookStore.Repositories.Books
             await _context.SaveChangesAsync();
         }
 
-        public async Task<BookModel?> GetBookById(int id)
-        {
-            return await _context.Books.FirstOrDefaultAsync(book => book.Id == id);
-        }
-
-
-        public async Task<List<BookModel>> GetAllBooks(int take, int skip)
-        {
-            return await _context.Books.Skip(skip).Take(take).ToListAsync();
-        }
-
         public async Task DeleteBook(BookModel model)
         {
             _context.Remove(model);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<BookModel> GetBookById(int id)
+        {
+            return await _context.Books.FirstOrDefaultAsync(book => book.Id == id);
+        }
+
+        public async Task<List<BookModel>> GetAllBooks(int take, int skip)
+        {
+            return await _context.Books.Skip(skip).Take(take).ToListAsync();
         }
 
         public async Task<List<BookModel>> SortBooks(string parameter, OrderKind value)
