@@ -11,15 +11,10 @@ namespace BookStore.Controllers.Books
 {
     [ApiController]
     [Route("[controller]")]
-    public class BooksController : Controller
+    public class BooksController(IMediator mediator) : Controller
     {
 
-        private readonly IMediator _mediator;
-
-        public BooksController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IMediator _mediator = mediator;
 
         [HttpPost("CreateBook")]
         public async Task<BookModel> CreateBook([FromBody] BookModel model)
@@ -28,7 +23,7 @@ namespace BookStore.Controllers.Books
         }
 
         [HttpPut("UpdateBook")]
-        public async Task<string> UpdateBook([FromBody] UpdateBookQuery updateBookQuery)
+        public async Task<string> UpdateBook([FromBody] UpdateBookCommand updateBookQuery)
         {
             return await _mediator.Send(updateBookQuery);
         }
@@ -41,7 +36,7 @@ namespace BookStore.Controllers.Books
         }
 
         [HttpGet("GetAllBooks")]
-        public async Task<List<BookModel>> GetAllBooks(int? take = 10, int? skip = 0)
+        public async Task<List<BookModel>> GetAllBooks(int take = 10, int skip = 0)
         {
             return await _mediator.Send(new GetAllBooksQuery { Take = take, Skip = skip });
         }
@@ -49,7 +44,7 @@ namespace BookStore.Controllers.Books
         [HttpDelete("DeleteBook")]
         public async Task<string> DeleteBook(int id)
         {
-            return await _mediator.Send(new DeleteBookQuery { Id = id });
+            return await _mediator.Send(new DeleteBookCommand { Id = id });
         }
 
         [HttpPost("SortBooks")]

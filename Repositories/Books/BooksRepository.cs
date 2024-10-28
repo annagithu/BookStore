@@ -1,5 +1,6 @@
 ﻿using BookStore.Helpers;
 using BookStore.InternalContracts.Models;
+using BookStore.InternalContracts.References;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Repositories.Books
@@ -19,7 +20,7 @@ namespace BookStore.Repositories.Books
         {
             _context.Update(model);
             await _context.SaveChangesAsync();
-            return "1 row has been updated";
+            return "1 row has been updated"; 
         }
 
         public async Task<BookModel?> GetBookById(int id)
@@ -28,7 +29,7 @@ namespace BookStore.Repositories.Books
         }
 
 
-        public async Task<List<BookModel>> GetAllBooks(int? take, int? skip)
+        public async Task<List<BookModel>> GetAllBooks(int take, int skip)
         {
             return await _context.Books.Skip((int)skip).Take((int)take).ToListAsync();
         }
@@ -37,17 +38,27 @@ namespace BookStore.Repositories.Books
         {
             _context.Remove(new BookModel { Id = id });
             await _context.SaveChangesAsync();
-            return "1 record has been deleted";
+            return "1 row has been deleted";
         }
 
-        public async Task<List<BookModel>> SortBooks(string parameter, string value)
+        public async Task<List<BookModel>> SortBooks(string parameter, OrderKind value)
         {
-            return await _context.Books.FromSqlRaw($"SELECT * FROM public.\"Books\" ORDER BY \"{parameter}\" {value}").ToListAsync();
+            return await _context.Books.FromSqlRaw($"SELECT * FROM public.\"Books\" ORDER BY \"{parameter}\" {ToSQL(value)}").ToListAsync();
         }
 
         public async Task<List<BookModel>> FilterBooks(string parameter, string value)
         {
             return await _context.Books.FromSqlRaw($"SELECT * FROM public.\"Books\" WHERE \"{parameter}\" = \'{value}\'").ToListAsync();
+        }
+
+        private string ToSQL(OrderKind orderKind)
+        {
+            switch (orderKind)
+            {
+                case OrderKind.ASC: return "ASC";
+                case OrderKind.DESC: return "DESC";
+                default: throw new AppException($"Not implemented for {orderKind}");
+            }
         }
     }
 }

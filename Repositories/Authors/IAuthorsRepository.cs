@@ -1,4 +1,5 @@
 ﻿using BookStore.InternalContracts.Models;
+using BookStore.InternalContracts.References;
 
 namespace BookStore.Repositories.Authors
 {
@@ -10,11 +11,11 @@ namespace BookStore.Repositories.Authors
 
         Task<AuthorModel> GetAuthorById(int id);
 
-        Task<List<AuthorModel>> GetAllAuthors(int? take, int? skip);
+        Task<List<AuthorModel>> GetAllAuthors(int take, int skip);
 
         Task<string> DeleteAuthor(int id);
 
-        Task<List<AuthorModel>> SortAuthors(string parameter, string value);
+        Task<List<AuthorModel>> SortAuthors(string parameter, OrderKind value);
 
         Task<List<AuthorModel>> FilterAuthors(string parameter, string value);
     }

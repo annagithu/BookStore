@@ -8,6 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="BookStoreTests\**" />
+      <Content Remove="BookStoreTests\**" />
+      <EmbeddedResource Remove="BookStoreTests\**" />
+      <None Remove="BookStoreTests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="AutoMapper" Version="13.0.1" />
         <PackageReference Include="EntityFramework" Version="6.5.1" />
         <PackageReference Include="MediatR" Version="12.4.1" />
@@ -26,7 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="PublicContracts\Models\" />
+      <None Include="BookStoreTests.csproj" />
     </ItemGroup>
 
 </Project>

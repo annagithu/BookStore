@@ -7,16 +7,16 @@ namespace BookStore.Services.Authors
     {
         Task<AuthorModel> CreateAuthor(AuthorModel model);
 
-        Task<string> UpdateAuthor(UpdateAuthorQuery model);
+        Task<string> UpdateAuthor(UpdateAuthorCommand model);
 
         Task<AuthorModel> GetAuthorById(int id);
 
-        Task<List<AuthorModel>> GetAllAuthors(GetAllAuthorsQuery getAllAuthorsCommand);
+        Task<List<AuthorModel>> GetAllAuthors(GetAllAuthorsQuery getAllAuthorsQuery);
 
         Task<string> DeleteAuthor(int id);
 
-        Task<List<AuthorModel>> SortAuthors(SortAuthorsQuery sortAuthorsCommand);
+        Task<List<AuthorModel>> SortAuthors(SortAuthorsQuery sortAuthorsQuery);
 
-        Task<List<AuthorModel>> FilterAuthors(FilterAuthorsQuery filterAuthorsCommand);
+        Task<List<AuthorModel>> FilterAuthors(FilterAuthorsQuery filterAuthorsQuery);
     }
 }

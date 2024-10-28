@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using BookStore.InternalContracts.References;
 using MediatR;
 
 namespace BookStore.InternalContracts.Models
@@ -15,7 +15,7 @@ namespace BookStore.InternalContracts.Models
 
         public int Pages { get; set; }
 
-        public References.References.Condition Condition { get; set; }
+        public Condition Condition { get; set; }
     }
 
   

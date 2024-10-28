@@ -1,5 +1,5 @@
 ﻿using BookStore.InternalContracts.Models;
-using BookStore.InternalContracts.BooksQueries;
+using BookStore.InternalContracts.References;
 
 namespace BookStore.Repositories.Books
 {
@@ -11,11 +11,11 @@ namespace BookStore.Repositories.Books
 
         Task<BookModel> GetBookById(int id);
 
-        Task<List<BookModel>> GetAllBooks(int? take, int? skip);
+        Task<List<BookModel>> GetAllBooks(int take, int skip);
 
         Task<string> DeleteBook(int id);
 
-        Task<List<BookModel>> SortBooks(string parameter, string value);
+        Task<List<BookModel>> SortBooks(string parameter, OrderKind value);
 
         Task<List<BookModel>> FilterBooks(string parameter, string value);
 

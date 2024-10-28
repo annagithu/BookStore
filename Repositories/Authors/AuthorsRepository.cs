@@ -1,4 +1,6 @@
 ﻿using BookStore.InternalContracts.Models;
+using BookStore.InternalContracts.References;
+using BookStore.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Repositories.Authors
@@ -11,7 +13,7 @@ namespace BookStore.Repositories.Authors
             _context = context;
         }
 
-        public async Task<AuthorModel> CreateAuthor(AuthorModel author) //решить проблему с айди
+        public async Task<AuthorModel> CreateAuthor(AuthorModel author)
         {
             await _context.AddAsync(author);
             await _context.SaveChangesAsync();
@@ -31,10 +33,10 @@ namespace BookStore.Repositories.Authors
             return await _context.Authors.FirstOrDefaultAsync(author => author.Id == id);
         }
 
-        public async Task<List<AuthorModel>> GetAllAuthors(int? take, int? skip)
+        public async Task<List<AuthorModel>> GetAllAuthors(int take, int skip)
         {
 
-            return await _context.Authors.Skip((int)skip).Take((int)take).ToListAsync();
+            return await _context.Authors.Skip(skip).Take(take).ToListAsync();
         }
 
         public async Task<string> DeleteAuthor(int id)
@@ -47,16 +49,26 @@ namespace BookStore.Repositories.Authors
             return responce;
         }
 
-        public async Task<List<AuthorModel>> SortAuthors(string parameter, string value)
+        public async Task<List<AuthorModel>> SortAuthors(string parameter, OrderKind value)
         {
                  
-            return await _context.Authors.FromSqlRaw($"SELECT * FROM public.\"Authors\" ORDER BY \"{parameter}\" {value}").ToListAsync();
+            return await _context.Authors.FromSqlRaw($"SELECT * FROM public.\"Authors\" ORDER BY \"{parameter}\" {ToSQL(value)}").ToListAsync();
         }
 
         public async Task<List<AuthorModel>> FilterAuthors(string parameter, string value)
         {
                  
             return await _context.Authors.FromSqlRaw($"SELECT * FROM public.\"Authors\" WHERE \"{parameter}\" = \'{value}\'").ToListAsync();
+        }
+
+        private string ToSQL(OrderKind orderKind)
+        {
+            switch (orderKind)
+            {
+                case OrderKind.ASC: return "ASC";
+                case OrderKind.DESC: return "DESC";
+                default: throw new AppException($"Not implemented for {orderKind}");
+            }
         }
     }
 }

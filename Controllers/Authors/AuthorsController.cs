@@ -12,14 +12,9 @@ namespace BookStore.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AuthorsController : Controller
+    public class AuthorsController(IMediator mediator) : Controller
     {
-        private readonly IMediator _mediator;
-
-        public AuthorsController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IMediator _mediator = mediator;
 
         [HttpPost("CreateAuthor")]
         public async Task<AuthorModel> CreateAuthor([FromBody] AuthorModel model)
@@ -28,7 +23,7 @@ namespace BookStore.Controllers
         }
 
         [HttpPut("UpdateAuthor")]
-        public async Task<string> UpdateAuthor([FromBody] UpdateAuthorQuery model)
+        public async Task<string> UpdateAuthor([FromBody] UpdateAuthorCommand model)
         {
             return await _mediator.Send(model);
         }
@@ -40,7 +35,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet("GetAllAuthors")]
-        public async Task<List<AuthorModel>> GetAllAuthors(int? take = 10, int? skip = 0 )
+        public async Task<List<AuthorModel>> GetAllAuthors(int take = 10, int skip = 0 )
         {
             return await _mediator.Send(new GetAllAuthorsQuery { Take = take, Skip = skip });
         }
@@ -48,7 +43,7 @@ namespace BookStore.Controllers
         [HttpDelete("DeleteAuthor")]
         public async Task<string> DeleteAuthor(int id)
         {
-            return await _mediator.Send(new DeleteAuthorQuery { Id = id });
+            return await _mediator.Send(new DeleteAuthorCommand { Id = id });
         }
 
         [HttpPost("SortAuthors")]
