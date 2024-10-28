@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using BookStore;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Helpers;
+using System.Runtime;
 
 {
     var builder = WebApplication.CreateBuilder(args);
@@ -21,9 +22,9 @@ using BookStore.Helpers;
     builder.Services.AddControllers();
     builder.Services.AddAutoMapper(typeof(MappingProfile));
     builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+    builder.Services.Configure<DbSettings>(builder.Configuration.GetSection("DbSettings"));
     builder.Services.AddDbContext<Context>(options =>
         {
-            options.UseNpgsql(@"host=localhost;port=5432;database=bookstore;username=postgres;password=1234");
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
 
